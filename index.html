@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h2 class="text-center">Country Details</h2>
+    <div style="display: flex; flex-direction: row; justify-content: center; margin: 1rem;">
+        <div class="mb-3">
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter country name" style="width: 25rem; height: 2rem;">
+        </div>
+          <button onclick="json()" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-left: 0.2rem; height: 2rem;">search</button>
+    </div>
+
+    <div class="a1">
+        <div class="a2">
+            <p id="a"></p>
+            <h1 id="country">country</h1>
+            <p class="ab" id="Capital">Capital : </p>
+            <p class="ab" id="currency">Currency : </p>
+        </div>
+        <div class="a3">
+            <h2>Country Details</h2>
+            <ul id="d">
+                
+            </ul>
+        </div>
+    </div>
+    <script>
+        async function json(){
+            let data= await fetch("https://restcountries.com/v3.1/name/"+document.getElementById("exampleFormControlInput1").value)
+            data = await data.json()
+            let countryflag=data[0].flags.png
+            document.getElementById("a").innerHTML="<img src=\""+countryflag+"\">";
+            document.getElementById("country").innerHTML=document.getElementById("exampleFormControlInput1").value
+            let capitalcity=data[0].capital
+            document.getElementById("Capital").innerHTML="Capital      : "+capitalcity
+             for(let x in data[0].currencies){
+                    document.getElementById("currency").innerHTML="Currency : "+data[0].currencies[x].name
+             }
+            document.getElementById("d").innerHTML="<li>"+"Continent : "+data[0].continents+"</li>"
+            let language=data[0].languages
+            let str=""
+            for(let x in language){
+                str+=language[x]+","
+            }
+            document.getElementById("d").innerHTML+="<li>"+"Languages : "+str+"</li>"
+            let demo=""
+            for(let x in data[0].demonyms){
+                demo+=data[0].demonyms[x].f
+                break
+            }
+            document.getElementById("d").innerHTML+="<li>"+"Demonyms : "+demo+"</li>"
+            document.getElementById("d").innerHTML+="<li>"+"Offical Name : "+data[0].name.official+"</li>"
+            document.getElementById("d").innerHTML+="<li>"+"Population : "+data[0].population+"</li>"
+            document.getElementById("d").innerHTML+="<li>"+"TimeZone : "+data[0].timezones+"</li>"
+            document.getElementById("d").innerHTML+="<li>"+"Borders : "+data[0].borders+"</li>"
+            document.getElementById("d").innerHTML+="<li>"+"Sub Region : "+data[0].subregion+"</li>"
+            document.getElementById("d").innerHTML+="<li>"+"tld : "+data[0].tld+"</li>"
+            document.getElementById("d").innerHTML+="<li>"+"Maps : "+"<a href=\""+data[0].maps["googleMaps"]+"\">"+data[0].maps["googleMaps"]+"</a>"+"</li>"
+            console.log(data)
+        }
+        json()
+    </script>
+</body>
+</html>
